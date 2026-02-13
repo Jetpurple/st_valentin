@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ff2d55" />
+  <title>💕 Saint-Valentin 💕</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>" />
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  <link rel="stylesheet" href="/src/styles/screens.css" />
+  <link rel="stylesheet" href="/src/styles/animations.css" />
+  <link rel="stylesheet" href="/src/styles/components.css" />
+  <link rel="stylesheet" href="/src/styles/catchhearts.fx.css" />
+</head>
+<body>
+  <!-- Topbar progression -->
+  <header id="topbar" class="topbar hidden">
+    <button id="btn-back" class="topbar-btn" aria-label="Retour">←</button>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+      <span class="progress-text" id="progress-text">1/6</span>
+    </div>
+    <button id="btn-sound" class="topbar-btn" aria-label="Son">🔇</button>
+  </header>
+
+  <!-- Particules de fond -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Conteneur principal des écrans -->
+  <main id="app"></main>
+
+  <!-- GIF décoratifs (coins) -->
+  <div class="corner-decor corner-top-left" aria-hidden="true">💕</div>
+  <div class="corner-decor corner-bottom-right" aria-hidden="true">💕</div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

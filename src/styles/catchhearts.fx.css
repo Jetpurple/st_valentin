@@ -1,0 +1,297 @@
+/* ===================================
+   catchhearts.fx.css — FX visuels pour le mini-jeu Catch Hearts
+   Comic pop, particules, jalousie, runner dog
+   =================================== */
+
+/* ━━━ IMPACT RING (comic pop) ━━━ */
+.comic-impact-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  margin: -25px 0 0 -25px;
+  border-radius: 50%;
+  border: 2px solid var(--ring-color, rgba(255, 45, 85, 0.6));
+  pointer-events: none;
+  will-change: transform, opacity;
+  z-index: 10;
+}
+
+/* ━━━ SPARK LINES (comic pop) ━━━ */
+.comic-spark-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  margin-top: -1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), transparent);
+  border-radius: 2px;
+  transform-origin: 0 50%;
+  transform: rotate(var(--spark-angle, 0deg)) translateX(16px);
+  pointer-events: none;
+  will-change: transform, opacity;
+  z-index: 10;
+}
+
+/* ━━━ CATCH ITEMS (cœurs + decoys) ━━━ */
+.catch-item {
+  position: absolute;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 5;
+  min-width: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  transition: transform 0.1s;
+  padding: 4px;
+}
+
+.catch-item:active {
+  transform: scale(0.9) !important;
+}
+
+/* ━━━ CŒURS ━━━ */
+.catch-item--heart {
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  filter: drop-shadow(0 0 8px rgba(255, 45, 85, 0.5));
+  animation: heartNeonGlow 2s ease-in-out infinite;
+}
+
+@keyframes heartNeonGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(255, 45, 85, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(255, 45, 85, 0.8))
+           drop-shadow(0 0 24px rgba(255, 45, 85, 0.3));
+  }
+}
+
+/* Cœurs en mode jealousy (25% plus gros) */
+.catch-item--heart.jealousy-boost {
+  font-size: clamp(1.8rem, 6.5vw, 2.5rem);
+  min-width: 58px;
+  min-height: 58px;
+}
+
+/* ━━━ DECOYS ━━━ */
+.catch-item--decoy {
+  border-radius: 14px;
+  outline: 2px solid rgba(255, 100, 50, 0.4);
+  outline-offset: 2px;
+  background: rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.catch-item--decoy img {
+  width: clamp(40px, 10vw, 54px);
+  height: clamp(40px, 10vw, 54px);
+  object-fit: cover;
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.catch-item--decoy .decoy-fallback {
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  width: clamp(40px, 10vw, 54px);
+  height: clamp(40px, 10vw, 54px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Badge "NOPE" */
+.catch-item--decoy::after {
+  content: 'NOPE';
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  font-size: clamp(0.45rem, 1.5vw, 0.55rem);
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 5px;
+  letter-spacing: 0.5px;
+  z-index: 11;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
+}
+
+.catch-item--decoy.decoy-boy {
+  outline-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
+
+.catch-item--decoy.decoy-dog {
+  outline-color: rgba(249, 115, 22, 0.5);
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+}
+
+/* ━━━ FLASH ROUGE AU CLIC DECOY ━━━ */
+.catch-decoy-flash {
+  position: fixed;
+  inset: 0;
+  background: rgba(239, 68, 68, 0.15);
+  pointer-events: none;
+  z-index: 9990;
+  will-change: opacity;
+}
+
+/* ━━━ JALOUSIE OVERLAY ━━━ */
+.jealousy-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(124, 58, 237, 0.12);
+  pointer-events: none;
+  z-index: 9980;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: opacity;
+}
+
+.jealousy-gif-container {
+  position: fixed;
+  bottom: clamp(12px, 3vw, 20px);
+  right: clamp(12px, 3vw, 20px);
+  width: clamp(70px, 18vw, 120px);
+  height: clamp(70px, 18vw, 120px);
+  border-radius: 50%;
+  border: 2px solid rgba(124, 58, 237, 0.6);
+  overflow: hidden;
+  z-index: 9985;
+  pointer-events: none;
+  box-shadow:
+    0 0 16px rgba(124, 58, 237, 0.5),
+    0 0 32px rgba(124, 58, 237, 0.2);
+  animation: jealousyPulse 1s ease-in-out infinite;
+}
+
+.jealousy-gif-container img,
+.jealousy-gif-container .jealousy-fallback {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.jealousy-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  background: rgba(124, 58, 237, 0.3);
+}
+
+@keyframes jealousyPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 16px rgba(124, 58, 237, 0.5),
+      0 0 32px rgba(124, 58, 237, 0.2);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow:
+      0 0 24px rgba(124, 58, 237, 0.7),
+      0 0 48px rgba(124, 58, 237, 0.3);
+    transform: scale(1.05);
+  }
+}
+
+/* ━━━ RUNNER DOG ━━━ */
+.runner-dog {
+  position: fixed;
+  bottom: clamp(40px, 10vh, 60px);
+  z-index: 9995;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  will-change: transform;
+  pointer-events: auto;
+  transition: filter 0.1s;
+}
+
+.runner-dog:hover {
+  filter: brightness(1.2);
+}
+
+.runner-dog:active {
+  filter: brightness(0.8);
+}
+
+.runner-dog img {
+  width: clamp(56px, 14vw, 80px);
+  height: clamp(42px, 10vw, 60px);
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.runner-dog .dog-fallback {
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Motion blur optionnel */
+.runner-dog--blur {
+  filter: blur(0.5px);
+}
+
+/* ━━━ HALFTONE DOTS (comic style) ━━━ */
+.catch-area::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 45, 85, 0.04) 1px, transparent 1px);
+  background-size: 12px 12px;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* ━━━ SCORE BONUS POPUP ━━━ */
+.score-popup {
+  position: fixed;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  font-weight: 800;
+  font-family: var(--font-body);
+  color: var(--gold);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform, opacity;
+}
+
+.score-popup--negative {
+  color: #ef4444;
+}
+
+.score-popup--bonus {
+  color: #10b981;
+}
+
+/* ━━━ REDUCED MOTION ━━━ */
+@media (prefers-reduced-motion: reduce) {
+  .catch-item--heart {
+    animation: none;
+    filter: drop-shadow(0 0 8px rgba(255, 45, 85, 0.5));
+  }
+
+  .jealousy-gif-container {
+    animation: none;
+  }
+
+  .comic-impact-ring,
+  .comic-spark-line {
+    display: none;
+  }
+
+  .runner-dog--blur {
+    filter: none;
+  }
+}
