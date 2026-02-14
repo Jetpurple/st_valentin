@@ -143,22 +143,32 @@ export function animateScreenOut(screen) {
 export function lazyLoadImage(src, fallbackEmoji = '💕', alt = '') {
   const wrapper = createElement('div', 'lazy-img-wrapper');
 
-  const img = new Image();
+  // Placeholder pendant chargement
+  wrapper.innerHTML = `<span class="fallback-emoji loading-pulse">${fallbackEmoji}</span>`;
+
+  // Créer l'image dans le DOM directement pour que le lazy loading fonctionne
+  const img = document.createElement('img');
   img.alt = alt;
   img.loading = 'lazy';
+  img.style.opacity = '0';
+  img.style.position = 'absolute';
+  img.style.width = '100%';
+  img.style.height = '100%';
+  img.style.objectFit = 'cover';
 
   img.onload = () => {
     wrapper.innerHTML = '';
+    img.style.position = '';
     wrapper.appendChild(img);
     gsap.fromTo(img, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4 });
   };
 
   img.onerror = () => {
+    img.remove();
     wrapper.innerHTML = `<span class="fallback-emoji">${fallbackEmoji}</span>`;
   };
 
-  // Placeholder pendant chargement
-  wrapper.innerHTML = `<span class="fallback-emoji loading-pulse">${fallbackEmoji}</span>`;
+  wrapper.appendChild(img);
   img.src = src;
 
   return wrapper;

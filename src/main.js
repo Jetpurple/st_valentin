@@ -76,6 +76,16 @@ function initApp() {
   // Initialise l'état du bouton son
   audioManager.updateButton(btnSound);
 
+  // --- Lancer la musique de fond dès la première interaction ---
+  function startBgMusic() {
+    audioManager.play();
+    audioManager.updateButton(btnSound);
+    document.removeEventListener('click', startBgMusic);
+    document.removeEventListener('touchstart', startBgMusic);
+  }
+  document.addEventListener('click', startBgMusic);
+  document.addEventListener('touchstart', startBgMusic);
+
   // --- Démarre le premier écran ---
   router.goTo(0);
 

@@ -27,7 +27,7 @@ export function createMemoryScreen() {
   screen.appendChild(subtitleEl);
   screen.appendChild(grid);
 
-  // Créer les paires (chaque emoji x2)
+  // Créer les paires (chaque image x2)
   const cards = shuffleArray([...pairs, ...pairs]);
 
   let flippedCards = [];
@@ -35,14 +35,21 @@ export function createMemoryScreen() {
   let isChecking = false;
   const totalPairs = pairs.length;
 
-  cards.forEach((emoji, index) => {
+  cards.forEach((item, index) => {
     const card = createElement('div', 'memory-card');
-    card.dataset.emoji = emoji;
+    card.dataset.cardId = item.id;
     card.dataset.index = index;
 
     const inner = createElement('div', 'memory-card-inner');
     const front = createElement('div', 'memory-card-front');
-    const back = createElement('div', 'memory-card-back', { textContent: emoji });
+    const back = createElement('div', 'memory-card-back');
+
+    // Créer l'image sticker
+    const img = createElement('img', 'memory-card-img');
+    img.src = item.src;
+    img.alt = 'sticker';
+    img.draggable = false;
+    back.appendChild(img);
 
     inner.appendChild(front);
     inner.appendChild(back);
@@ -97,7 +104,7 @@ export function createMemoryScreen() {
   function checkMatch() {
     const [card1, card2] = flippedCards;
 
-    if (card1.dataset.emoji === card2.dataset.emoji) {
+    if (card1.dataset.cardId === card2.dataset.cardId) {
       // Match !
       matchedCount++;
 

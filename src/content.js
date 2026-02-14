@@ -46,34 +46,35 @@ export const CONTENT = {
     title: "Quiz de notre couple 💑",
     questions: [
       {
-        question: "Quel est notre film préféré ensemble ? 🎬",
-        options: ["Titanic", "The Notebook", "La La Land", "Up"],
-        correct: 2,
-        hint: "Indice : 🎵🌃",
-      },
-      {
-        question: "Où s'est passé notre premier rendez-vous ? 📍",
-        options: ["Restaurant", "Cinéma", "Parc", "Café"],
-        correct: 3,
-        hint: "Indice : ☕",
-      },
-      {
-        question: "Quelle est ma couleur préférée ? 🎨",
-        options: ["Rouge", "Bleu", "Vert", "Violet"],
-        correct: 0,
-        hint: "Indice : la couleur de l'amour 💕",
-      },
-      {
-        question: "Quel est notre plat à commander ensemble ? 🍕",
-        options: ["Pizza", "Sushi", "Burger", "Pasta"],
+        question: "Où est-ce qu'on s'est rencontrés pour la première fois ? 📍",
+        options: ["En soirée", "Au musée", "Sur Tinder", "Au travail"],
         correct: 1,
-        hint: "Indice : 🇯🇵",
+        hint: "Indice : 🖼️🎨",
       },
       {
-        question: "Quel surnom je te donne le plus ? 💬",
-        options: ["Mon cœur", "Bébé", "Mon ange", "Chaton"],
-        correct: 0,
-        hint: "Indice : ❤️",
+        question: "Qu'est-ce que j'aime chez toi ? 💕",
+        options: ["Ton sourire", "Ta cuisine (lol)", "Ta passion", "Ton humour douteux", "Tes fesses"],
+        correct: 2,
+        hint: "Indice : 🔥 Ce qui te fait briller",
+      },
+      {
+        question: "Qu'est-ce que je déteste chez toi ? 🤔",
+        options: ["Ton caractère", "Ton désordre", "Tes ronflements", "Ta jalousie"],
+        correct: -1,
+        noneCorrectMessage: "Piège ! Je ne déteste rien chez toi 🥰💖",
+        hint: "Indice : c'est un piège… 😏",
+      },
+      {
+        question: "Comment je nous vois dans 5 ans ? 🔮",
+        options: ["Mariés avec 3 enfants", "Ultra riches 💰", "En tour du monde", "Avec 12 chats", "Avec 3 grands chiens 🐕"],
+        correct: 1,
+        hint: "Indice : 🤑💸",
+      },
+      {
+        question: "Qu'est-ce qui est jaune et qui attend ? 🤣",
+        options: ["Un poussin patient", "Jonathan", "Un chinois à un arrêt de bus", "Un tournesol au feu rouge"],
+        correct: 2,
+        hint: "Indice : 🚏😂",
       },
     ],
   },
@@ -82,7 +83,16 @@ export const CONTENT = {
   memory: {
     title: "Jeu de mémoire 🧠💕",
     subtitle: "Trouve toutes les paires !",
-    pairs: ["❤️", "💖", "💕", "🥰", "💘", "😍"],
+    pairs: [
+      { id: 'sticker1', src: '/assets/stickers/sticker1.png' },
+      { id: 'sticker2', src: '/assets/stickers/sticker2.png' },
+      { id: 'sticker3', src: '/assets/stickers/sticker3.png' },
+      { id: 'sticker4', src: '/assets/stickers/sticker4.png' },
+      { id: 'sticker5', src: '/assets/stickers/sticker5.png' },
+      { id: 'sticker6', src: '/assets/stickers/sticker6.png' },
+      { id: 'sticker7', src: '/assets/stickers/sticker7.png' },
+      { id: 'sticker8', src: '/assets/stickers/sticker8.png' },
+    ],
     successMessage: "Perfect match ! Comme nous deux 💑",
   },
 
@@ -91,8 +101,8 @@ export const CONTENT = {
     revealMessage:
       "Chaque jour avec toi est un cadeau. Tu es la personne la plus incroyable que je connaisse, et je suis tellement chanceux(se) de t'avoir dans ma vie. Je t'aime plus que les mots ne peuvent le dire... 💖",
     unlockLabel: "Déverrouille ta surprise 🎁",
-    secretCode: "1402", // 14 février !
-    codeHint: "Indice : la date de la Saint-Valentin (JJMM) 💕",
+    secretCode: "1401", // 14 janvier — notre anniversaire !
+    codeHint: "Indice : la date de notre anniversaire ensemble (JJMM) 💕",
     finalMessage: "Tu pourras aller réclamer ton dû à ton homme ❤️",
     restartButton: "Recommencer l'aventure 🔄",
     galleryTitle: "Nos plus beaux moments 📸",

@@ -35,17 +35,16 @@ export function createValentineScreen() {
   const noBtn = createElement('button', 'btn btn--outline btn-no', { textContent: noText });
 
   buttonsDiv.appendChild(yesBtn);
+  buttonsDiv.appendChild(noBtn);
 
   screen.appendChild(emoji);
   screen.appendChild(questionEl);
   screen.appendChild(messageEl);
   screen.appendChild(buttonsDiv);
 
-  // Le bouton NON est enfant direct du screen pour se déplacer partout
-  screen.appendChild(noBtn);
-
   let escapeCount = 0;
   let lastEscapeTime = 0;
+  let hasEscaped = false;
 
   // Reset le compteur de rage au démarrage de l'écran
   resetDodgeCount();
@@ -65,7 +64,7 @@ export function createValentineScreen() {
     cachedBtnH = noBtn.offsetHeight || 48;
   });
 
-  /** Téléporte le bouton instantanément à une position aléatoire */
+  /** Déplace le bouton NON à une position proche, jamais sous OUI ni hors écran */
   function teleportAway() {
     const now = Date.now();
     if (now - lastEscapeTime < ESCAPE_COOLDOWN) return;
@@ -79,20 +78,77 @@ export function createValentineScreen() {
       hoverTimer = null;
     }
 
-    const btnW = cachedBtnW;
-    const btnH = cachedBtnH;
-    const margin = 20;
     const screenRect = screen.getBoundingClientRect();
 
-    const randX = margin + Math.random() * Math.max(0, screenRect.width - btnW - margin * 2);
-    const randY = margin + Math.random() * Math.max(0, screenRect.height - btnH - margin * 2);
+    // Premier échappement : sortir du flow et passer en absolute
+    if (!hasEscaped) {
+      hasEscaped = true;
+      const currentRect = noBtn.getBoundingClientRect();
+      noBtn.classList.add('escaped');
+      screen.appendChild(noBtn);
+      // Placer à la position exacte qu'il avait en flow
+      gsap.set(noBtn, {
+        left: currentRect.left - screenRect.left,
+        top: currentRect.top - screenRect.top,
+      });
+      // Mettre à jour les dimensions en cache
+      cachedBtnW = noBtn.offsetWidth || 80;
+      cachedBtnH = noBtn.offsetHeight || 48;
+    }
 
-    // Nettoyer right (conflit CSS) et téléporter directement
+    const btnW = cachedBtnW;
+    const btnH = cachedBtnH;
+    const margin = 12;
+    const yesBtnRect = yesBtn.getBoundingClientRect();
+
+    // Bornes relatives au screen
+    const minX = margin;
+    const maxX = Math.max(minX, screenRect.width - btnW - margin);
+    const minY = margin;
+    // Ne JAMAIS descendre en dessous du haut du bouton OUI
+    const maxYBtn = yesBtnRect.top - screenRect.top;
+    const maxYScreen = screenRect.height - btnH - margin;
+    const maxY = Math.max(minY, Math.min(maxYBtn, maxYScreen));
+
+    // Position actuelle
+    const currentRect = noBtn.getBoundingClientRect();
+    const currentX = currentRect.left - screenRect.left;
+    const currentY = currentRect.top - screenRect.top;
+
+    // Direction aléatoire + distance modérée (80–180px)
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 80 + Math.random() * 100;
+
+    let newX = currentX + Math.cos(angle) * distance;
+    let newY = currentY + Math.sin(angle) * distance;
+
+    // Borner dans la zone autorisée
+    newX = Math.max(minX, Math.min(maxX, newX));
+    newY = Math.max(minY, Math.min(maxY, newY));
+
+    // Éviter de chevaucher le bouton OUI
+    const yesRelLeft = yesBtnRect.left - screenRect.left;
+    const yesRelRight = yesBtnRect.right - screenRect.left;
+    const yesRelTop = yesBtnRect.top - screenRect.top;
+    const yesRelBottom = yesBtnRect.bottom - screenRect.top;
+    const overlapX = newX + btnW > yesRelLeft && newX < yesRelRight;
+    const overlapY = newY + btnH > yesRelTop && newY < yesRelBottom;
+    if (overlapX && overlapY) {
+      // Décaler horizontalement hors du bouton OUI
+      if (newX + btnW / 2 < yesRelLeft + (yesRelRight - yesRelLeft) / 2) {
+        newX = Math.max(minX, yesRelLeft - btnW - margin);
+      } else {
+        newX = Math.min(maxX, yesRelRight + margin);
+      }
+    }
+
     noBtn.style.right = 'auto';
     gsap.killTweensOf(noBtn);
-    gsap.set(noBtn, {
-      left: randX,
-      top: randY,
+    gsap.to(noBtn, {
+      left: newX,
+      top: newY,
+      duration: 0.25,
+      ease: 'power2.out',
     });
 
     isVanishing = false;

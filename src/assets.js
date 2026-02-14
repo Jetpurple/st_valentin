@@ -14,16 +14,11 @@ export const ASSETS = {
     dance: '/assets/gifs/dance.gif',
   },
 
-  // Images pour la galerie finale (Écran 6)
-  // Remplace par tes propres photos !
-  gallery: [
-    { src: '/assets/gifs/photo1.gif', alt: 'Notre moment 1' },
-    { src: '/assets/gifs/photo2.gif', alt: 'Notre moment 2' },
-    { src: '/assets/gifs/photo3.gif', alt: 'Notre moment 3' },
-    { src: '/assets/gifs/photo4.gif', alt: 'Notre moment 4' },
-    { src: '/assets/gifs/photo5.gif', alt: 'Notre moment 5' },
-    { src: '/assets/gifs/photo6.gif', alt: 'Notre moment 6' },
-  ],
+  // Images pour la galerie finale (Écran 6) — Nos souvenirs 💕
+  gallery: Array.from({ length: 48 }, (_, i) => ({
+    src: `/assets/souvenirs/photo${i + 1}.jpg`,
+    alt: `Notre souvenir ${i + 1}`,
+  })),
 
   // Fallback emojis quand les images ne sont pas trouvées
   fallbackEmojis: ['💑', '💕', '🌹', '💖', '🥰', '✨'],

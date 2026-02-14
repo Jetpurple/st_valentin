@@ -235,6 +235,94 @@ export function createFinalScreen() {
     setTimeout(() => {
       confettiHearts(window.innerWidth / 2, window.innerHeight / 2, 50);
     }, 300);
+
+    // Affiche la section rideau après un délai
+    setTimeout(() => showCurtainReveal(), 2500);
+  }
+
+  /** Phase 5: Rideau de théâtre — Reveal du cadeau */
+  function showCurtainReveal() {
+    const section = createElement('div', 'curtain-section');
+
+    // Texte teaser
+    const teaser = createElement('p', 'curtain-teaser', {
+      textContent: '🎭 Mais ce n\'est pas fini... 🎭',
+    });
+
+    // La scène
+    const stage = createElement('div', 'curtain-stage');
+
+    // Pelmet (lambrequin en haut)
+    const pelmet = createElement('div', 'curtain-pelmet');
+    const pelmetCenter = createElement('div', 'curtain-pelmet-center');
+    pelmet.appendChild(pelmetCenter);
+
+    // Contenu caché derrière le rideau
+    const content = createElement('div', 'curtain-content');
+
+    const img = createElement('img', '', {
+      src: '/assets/cadeau.jpg',
+      alt: 'Ton cadeau',
+    });
+
+    const caption = createElement('p', 'curtain-caption', {
+      textContent: 'Ton cadeau : des sangles, pour le sport en salle ou même ailleurs 👀',
+    });
+
+    content.appendChild(img);
+    content.appendChild(caption);
+
+    // Panneaux du rideau
+    const curtainLeft = createElement('div', 'curtain-panel curtain-left');
+    const curtainRight = createElement('div', 'curtain-panel curtain-right');
+
+    // Bouton pour ouvrir
+    const openBtn = createElement('button', 'curtain-open-btn', {
+      textContent: '🎭 Ouvrir le rideau 🎭',
+    });
+
+    openBtn.addEventListener('click', () => {
+      // Ouvre les rideaux
+      stage.classList.add('open');
+      content.classList.add('revealed');
+      openBtn.classList.add('hidden-btn');
+
+      // Confettis après l'ouverture
+      setTimeout(() => {
+        confettiHearts(window.innerWidth / 2, window.innerHeight / 2, 40);
+      }, 800);
+
+      // Petite pluie de cœurs
+      setTimeout(() => heartRain(3000), 1200);
+    });
+
+    stage.appendChild(pelmet);
+    stage.appendChild(content);
+    stage.appendChild(curtainLeft);
+    stage.appendChild(curtainRight);
+    stage.appendChild(openBtn);
+
+    section.appendChild(teaser);
+    section.appendChild(stage);
+
+    // Trouver le reveal container et y ajouter la section
+    const reveal = screen.querySelector('.final-reveal');
+    if (reveal) {
+      reveal.appendChild(section);
+    } else {
+      screen.appendChild(section);
+    }
+
+    // Animation d'entrée
+    gsap.fromTo(section,
+      { opacity: 0, y: 40 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+    );
+
+    // Scroll vers la section
+    setTimeout(() => {
+      section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
   }
 
   return screen;

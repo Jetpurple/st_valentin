@@ -18,6 +18,7 @@ export function createQuizScreen() {
 
   let currentQ = 0;
   let totalScore = 0;
+  let noneWrongCount = 0;
 
   // Titre
   const titleEl = createElement('h2', 'screen-title', { textContent: title });
@@ -73,6 +74,50 @@ export function createQuizScreen() {
 
     // Désactiver tous les boutons
     allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+    // Question piège : aucune réponse n'est correcte
+    if (q.correct === -1) {
+      btn.classList.add('wrong', 'shake');
+
+      noneWrongCount++;
+
+      // Quand toutes les options ont été essayées → révéler le piège
+      if (noneWrongCount >= q.options.length) {
+        setTimeout(() => {
+          allBtns.forEach(b => {
+            b.classList.remove('wrong', 'shake');
+            b.classList.add('correct');
+          });
+          totalScore++;
+
+          // Confettis
+          const rect = optionsDiv.getBoundingClientRect();
+          confettiHearts(rect.left + rect.width / 2, rect.top, 20);
+
+          // Toast piège
+          showFlirtyToast(q.noneCorrectMessage || 'Piège ! 😏💖', { emoji: '🥰' });
+
+          setTimeout(() => {
+            noneWrongCount = 0;
+            nextQuestion();
+          }, 2000);
+        }, 600);
+      } else {
+        // Toast taquin à chaque mauvais essai
+        showFlirtyToast(getFlirtyLine('quizWrong', 0.7), { shake: true });
+
+        // Réactiver les autres boutons
+        setTimeout(() => {
+          btn.classList.remove('shake');
+          allBtns.forEach(b => {
+            if (!b.classList.contains('wrong')) {
+              b.style.pointerEvents = 'auto';
+            }
+          });
+        }, 600);
+      }
+      return;
+    }
 
     if (selectedIndex === q.correct) {
       // Bonne réponse !

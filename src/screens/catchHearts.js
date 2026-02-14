@@ -24,17 +24,17 @@ import { jealousyLines } from '../content/jealousyLines.js';
 import { runnerDogLines } from '../content/runnerDogLines.js';
 
 // ━━━ Constantes ━━━
-const MAX_DECOYS_ACTIVE = 6;
-const MAX_ITEMS_TOTAL = 10;
-const JEALOUSY_THRESHOLD = 5;
+const MAX_DECOYS_ACTIVE = 8;
+const MAX_ITEMS_TOTAL = 12;
+const JEALOUSY_THRESHOLD = 2;
 const JEALOUSY_DURATION = 6000; // 6 secondes
-const RUNNER_DOG_MIN_INTERVAL = 8000;
-const RUNNER_DOG_MAX_INTERVAL = 14000;
-const RUNNER_DOG_CHANCE = 0.20;
-const DOG_CLICK_THRESHOLD = 3; // chiens cliqués pour forcer runner dog
-const DECOY_PROBABILITY_DEFAULT = 0.35; // 35% de chance decoy au lieu de cœur
-const BOY_PROBABILITY_DEFAULT = 0.15; // 15% de boys dans les decoys totaux
-const BOY_PROBABILITY_JEALOUSY = 0.05; // 5% de boys pendant jalousie
+const RUNNER_DOG_MIN_INTERVAL = 5000;
+const RUNNER_DOG_MAX_INTERVAL = 10000;
+const RUNNER_DOG_CHANCE = 0.35;
+const DOG_CLICK_THRESHOLD = 2; // chiens cliqués pour forcer runner dog
+const DECOY_PROBABILITY_DEFAULT = 0.38; // 38% de chance decoy au lieu de cœur
+const BOY_PROBABILITY_DEFAULT = 0.30; // 30% de boys dans les decoys totaux
+const BOY_PROBABILITY_JEALOUSY = 0.12; // 12% de boys pendant jalousie
 const SCORE_HEART = 1;
 const SCORE_DECOY_PENALTY = -3;
 const SCORE_RUNNER_DOG_BONUS = 2;
@@ -67,11 +67,12 @@ export function createCatchHeartsScreen() {
   const resultEl = createElement('p', 'screen-subtitle');
   resultEl.style.display = 'none';
 
+  area.appendChild(startBtn);
+
   screen.appendChild(titleEl);
   screen.appendChild(instrEl);
   screen.appendChild(header);
   screen.appendChild(area);
-  screen.appendChild(startBtn);
   screen.appendChild(resultEl);
 
   // ━━━ State ━━━
@@ -102,6 +103,10 @@ export function createCatchHeartsScreen() {
     dogClickCount = 0;
     jealousyActive = false;
     runnerDogActive = false;
+    // Retirer le bouton de la zone avant de vider (sinon il est détruit)
+    if (startBtn.parentElement === area) {
+      area.removeChild(startBtn);
+    }
     startBtn.style.display = 'none';
     instrEl.style.display = 'none';
     resultEl.style.display = 'none';
@@ -692,9 +697,10 @@ export function createCatchHeartsScreen() {
       resultEl.style.display = 'block';
       gsap.fromTo(resultEl, { opacity: 0 }, { opacity: 1, duration: 0.5 });
 
-      // Bouton réessayer
+      // Bouton réessayer (remettre dans la zone de jeu)
       startBtn.textContent = '🔄 Réessayer';
       startBtn.style.display = '';
+      area.appendChild(startBtn);
       gsap.fromTo(startBtn, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, delay: 0.5 });
     }
   }
