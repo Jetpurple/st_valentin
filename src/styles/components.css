@@ -55,7 +55,7 @@
 /* Progress bar */
 .progress-bar {
   flex: 1;
-  max-width: 180px;
+  max-width: clamp(120px, 30vw, 200px);
   height: 6px;
   background: rgba(255, 255, 255, 0.15);
   border-radius: 3px;
@@ -197,6 +197,7 @@
   min-height: 60px;
   border-radius: var(--radius);
   overflow: hidden;
+  position: relative;
 }
 
 .lazy-img-wrapper img {
@@ -204,6 +205,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: var(--radius);
+  display: block;
 }
 
 .fallback-emoji {

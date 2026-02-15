@@ -5,7 +5,7 @@
 /* === LAYOUT COMMUN === */
 .screen {
   width: 100%;
-  max-width: 600px;
+  max-width: min(600px, 100%);
   min-height: 0;
   flex: 1;
   display: flex;
@@ -13,9 +13,10 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: clamp(10px, 2.5vw, 20px);
-  gap: clamp(10px, 2.5vw, 18px);
-  overflow: hidden;
+  padding: clamp(10px, 3vw, 24px);
+  gap: clamp(10px, 3vw, 20px);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .screen-title {
@@ -82,7 +83,7 @@
   min-height: clamp(60px, 15vw, 120px);
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: min(450px, 100%);
 }
 
 .btn-yes {
@@ -111,7 +112,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 400px;
+  max-width: min(500px, 100%);
   gap: clamp(8px, 2vw, 16px);
 }
 
@@ -133,8 +134,8 @@
 
 .catch-area {
   width: 100%;
-  max-width: 400px;
-  height: clamp(200px, 45vh, 400px);
+  max-width: min(500px, 100%);
+  height: clamp(220px, 50vh, 450px);
   position: relative;
   background: rgba(255, 255, 255, 0.05);
   border-radius: var(--radius);
@@ -195,7 +196,7 @@
   flex-direction: column;
   gap: clamp(8px, 2vw, 12px);
   width: 100%;
-  max-width: 400px;
+  max-width: min(500px, 100%);
 }
 
 .quiz-option {
@@ -251,9 +252,9 @@
 .memory-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(6px, 1.5vw, 10px);
+  gap: clamp(6px, 2vw, 12px);
   width: 100%;
-  max-width: 420px;
+  max-width: min(460px, 100%);
 }
 
 .memory-card {
@@ -327,12 +328,14 @@
 /* === ÉCRAN 6 — FINAL === */
 .final-screen {
   gap: clamp(12px, 3vw, 24px);
+  justify-content: flex-start;
+  overflow-y: auto;
 }
 
 .final-message {
   font-size: clamp(0.85rem, 2.8vw, 1.15rem);
   line-height: 1.7;
-  max-width: 500px;
+  max-width: min(500px, 100%);
   color: var(--rose);
   word-break: break-word;
   padding: 0 4px;
@@ -340,27 +343,27 @@
 
 .gallery-carousel {
   display: flex;
-  gap: clamp(8px, 2vw, 16px);
+  gap: clamp(10px, 2.5vw, 16px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 8px 0;
+  padding: clamp(8px, 2vw, 12px) 0;
   width: 100%;
-  max-width: 500px;
+  max-width: 100%;
 }
 
 .gallery-carousel::-webkit-scrollbar {
-  height: 4px;
+  height: 6px;
 }
 
 .gallery-carousel::-webkit-scrollbar-thumb {
   background: var(--pink);
-  border-radius: 2px;
+  border-radius: 3px;
 }
 
 .gallery-item {
-  min-width: clamp(120px, 35vw, 200px);
-  height: clamp(120px, 35vw, 200px);
+  min-width: clamp(200px, 55vw, 320px);
+  height: clamp(200px, 55vw, 320px);
   scroll-snap-align: center;
   border-radius: var(--radius);
   overflow: hidden;
@@ -444,7 +447,7 @@
 .curtain-stage {
   position: relative;
   width: 100%;
-  max-width: 420px;
+  max-width: min(420px, 100%);
   aspect-ratio: 3/4;
   border-radius: var(--radius);
   overflow: hidden;
@@ -667,14 +670,32 @@
   to { opacity: 1; }
 }
 
-/* === RESPONSIVE — SMALL MOBILE === */
+/* === RESPONSIVE — SMALL MOBILE (≤480px) === */
 @media (max-width: 480px) {
+  .screen {
+    padding: clamp(8px, 2vw, 14px);
+    gap: clamp(8px, 2vw, 14px);
+  }
+
   .memory-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .gallery-item {
+    min-width: clamp(170px, 65vw, 250px);
+    height: clamp(170px, 65vw, 250px);
+  }
+
+  .catch-area {
+    height: clamp(200px, 50vh, 350px);
+  }
+
+  .curtain-content img {
+    max-width: 85%;
+  }
 }
 
-/* === RESPONSIVE — VERY SMALL === */
+/* === RESPONSIVE — VERY SMALL (≤360px) === */
 @media (max-width: 360px) {
   .memory-grid {
     gap: 4px;
@@ -683,20 +704,101 @@
   .valentine-buttons {
     min-height: 50px;
   }
+
+  .gallery-item {
+    min-width: 160px;
+    height: 160px;
+  }
+
+  .quiz-option {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .code-digit {
+    width: 36px;
+    height: 42px;
+  }
 }
 
-/* === RESPONSIVE — TABLET+ === */
+/* === RESPONSIVE — TABLET (≥768px) === */
 @media (min-width: 768px) {
+  .screen {
+    max-width: 700px;
+    gap: clamp(16px, 3vw, 28px);
+  }
+
   .catch-area {
-    max-width: 500px;
+    max-width: 550px;
+    height: clamp(280px, 50vh, 450px);
+  }
+
+  .catch-header {
+    max-width: 550px;
   }
 
   .memory-grid {
-    max-width: 450px;
+    max-width: 500px;
+    gap: 12px;
   }
 
   .gallery-item {
-    min-width: 220px;
-    height: 220px;
+    min-width: 280px;
+    height: 280px;
+  }
+
+  .quiz-options {
+    max-width: 550px;
+  }
+
+  .quiz-option {
+    padding: 16px 24px;
+    font-size: 1.05rem;
+  }
+
+  .valentine-buttons {
+    max-width: 500px;
+  }
+
+  .final-message {
+    max-width: 600px;
+    font-size: 1.15rem;
+  }
+
+  .curtain-stage {
+    max-width: 480px;
+  }
+}
+
+/* === RESPONSIVE — DESKTOP (≥1024px) === */
+@media (min-width: 1024px) {
+  .screen {
+    max-width: 800px;
+  }
+
+  .gallery-item {
+    min-width: 320px;
+    height: 320px;
+  }
+
+  .catch-area {
+    max-width: 600px;
+    height: 450px;
+  }
+
+  .catch-header {
+    max-width: 600px;
+  }
+
+  .memory-grid {
+    max-width: 550px;
+  }
+
+  .quiz-options {
+    max-width: 600px;
+  }
+
+  .final-message {
+    max-width: 700px;
   }
 }
